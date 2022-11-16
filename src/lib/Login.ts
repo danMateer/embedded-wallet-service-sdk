@@ -1,4 +1,4 @@
-import { AuthProvider } from "../constants/settings";
+import { AuthProvider, StoredToken } from "../constants/settings";
 import {
   createEmbeddedWalletLink,
   EMBEDDED_WALLET_IFRAME_ID,
@@ -33,10 +33,29 @@ export class Login {
     token: string;
     provider: AuthProvider;
   }): Promise<{ success: boolean }> {
-    await this.walletManagerQuerier.init();
-    return this.walletManagerQuerier.call<{ success: boolean }>("jwtAuth", {
-      token,
-      provider,
-    });
+    try {
+      console.log("calling jwtAuth in SDK");
+      await this.walletManagerQuerier.init();
+      console.log("complete walletManagerQuerier in SDK");
+      console.log("token in SDK is ", token);
+      console.log("provider in SDK is ", provider);
+      const response = await this.walletManagerQuerier.call<StoredToken>(
+        "jwtAuth",
+        {
+          token,
+          provider,
+        }
+      );
+
+      if (response.jwtToken) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (e) {
+      console.error("Error trying to call jwtAuth in SDK");
+      console.error(e);
+      return { success: false };
+    }
   }
 }

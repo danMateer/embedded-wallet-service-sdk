@@ -35,3 +35,9 @@ export enum AuthProvider {
   AUTH0 = "Auth0",
   CUSTOM_JWT = "CustomJWT",
 }
+
+export interface StoredToken {
+  jwtToken: string;
+  authProvider: AuthProvider;
+  developerClientId: string;
+}
