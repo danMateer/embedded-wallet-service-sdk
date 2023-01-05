@@ -20,7 +20,7 @@ export const getPaperOriginUrl = (): string => {
   if (isDev())
     return "https://d180-2607-fea8-1ea1-d900-acba-1d63-8773-946f.ngrok.io";
   if (isStaging()) {
-    if (process?.env?.ZEET_DEPLOYMENT_URL) {
+    if (process.env?.ZEET_DEPLOYMENT_URL) {
       return `https://${process.env.ZEET_DEPLOYMENT_URL}`;
     }
 
